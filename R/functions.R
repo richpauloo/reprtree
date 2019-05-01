@@ -25,11 +25,11 @@ as.tree <- function(gTree,rforest,max.depth=3){
   fr$var <- as.character(gTree[,"split var"])
   fr$var[is.na(fr$var)] <- '<leaf>'
   fr$n <- fr$dev <- rep(0,length(fr$var))
-  fr$yval <- gTree[,'prediction']
+  fr$yval <- round(gTree[,'prediction'], 3)
   
   # Need to work out split points based on classes of the splitting vars
   classes <- attributes(rforest$terms)$dataClasses
-  blah <- data.frame(var=fr$var, splits=as.character(gTree[,'split point']), 
+  blah <- data.frame(var=fr$var, splits=as.character(round(gTree[,'split point'], 2)),
                 classes=classes[fr$var], stringsAsFactors=F)
   index <- which(blah$classes=='factor' & !is.na(blah$classes))
   blah$splits[index] <- sapply(blah$splits[index], factor.repr)  
