@@ -54,6 +54,7 @@ plot.reprtree <- function(reptree, all=F, index = ifelse(all,NULL, 1), depth=0,
 
 labelBG <- function(tr){
   require(plotrix)
+  require(colormap)
   charht <- par('cxy')[2L]
   xy <- tree:::treeco(tr,uniform=TRUE)
   nodes <- as.integer(row.names(tr$frame))
@@ -61,8 +62,22 @@ labelBG <- function(tr){
   rows <- tree:::labels.tree(tr)[left.child]
   rows <- gsub('NA,','',rows)
   ind <- !is.na(left.child)
+  
+  ######################   rich added   ##################################
+  # add color for each unique text label
+  lvars <- 4
+  palt <- c("#85d349ff", "#239a89ff", "#39568bff", "#440154ff")
+  #colormap(colormaps$viridis, nshades = 4*3)[seq(1, lvars * 3, 3)]
+  names(palt) <- c("ge_norm", "apl_norm", "sgp", "k_perm")
+  
+  # variables in tree i, mapped to their color
+  vars <- stringr::str_split(rows[ind], " ", simplify = TRUE)[, 1]
+  cols <- palt[vars]
+  ########################################################################
+  
   boxed.labels(xy$x[ind],xy$y[ind]+0.5*charht, rows[ind] , border=F, bg='white',
-               cex=0.8, xpad=0.5, ypad=1)
+               cex=0.8, xpad=0.5, ypad=1, 
+               col = cols) # RICH ADDED THIS TOO
 }
 labelYN <- function(tr){
   charht <- par('cxy')[2L]
