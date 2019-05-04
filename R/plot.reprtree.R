@@ -52,7 +52,7 @@ plot.reprtree <- function(reptree, all=F, index = ifelse(all,NULL, 1), depth=0,
   }
 }
 
-labelBG <- function(tr){
+labelBG <- function(tr, npred, rv){
   require(plotrix)
   require(colormap)
   charht <- par('cxy')[2L]
@@ -65,13 +65,11 @@ labelBG <- function(tr){
   
   ######################   rich added   ##################################
   # add color for each unique text label
-  lvars <- 4
-  palt <- c("#85d349ff", "#239a89ff", "#39568bff", "#440154ff")
-  #colormap(colormaps$viridis, nshades = 4*3)[seq(1, lvars * 3, 3)]
-  names(palt) <- c("ge_norm", "apl_norm", "sgp", "k_perm")
+  palt <- colormap::colormap(colormaps$viridis, nshades = npred)
+  names(palt) <- rv
   
   # variables in tree i, mapped to their color
-  vars <- stringr::str_split(rows[ind], " ", simplify = TRUE)[, 1]
+  vars <- unlist(lapply(strsplit(rows[ind], " "), function(x){x[1]}))
   cols <- palt[vars]
   ########################################################################
   

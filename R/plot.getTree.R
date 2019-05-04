@@ -11,9 +11,11 @@
 #' library(randomForest)
 #' rforest <- randomForest(Species~., data=iris, ntree=20)
 #' plot.getTree(rforest, k=3, depth=4)
-plot.getTree <- function(rforest=NULL,tr=NULL,k=1, depth=0,main=NULL, ...){
+plot.getTree <- function(rforest=NULL,tr=NULL,k=1, depth=0,main=NULL, npred=NULL, rv = NULL, ...){
   require(randomForest)
   if(is.null(rforest) && is.null(tr))stop('One of a random forest object or a tree object must be input')
+  if(is.null(npred))stop('Supply a number of predictor variables.')
+  if(is.null(rv))stop('Supply the ranked predictor variable vector `rv`.')
   if(!is.null(rforest)){
     gTree <- getTree(rforest, k=k, labelVar=TRUE)
     x <- as.tree(gTree, rforest)
@@ -25,7 +27,7 @@ plot.getTree <- function(rforest=NULL,tr=NULL,k=1, depth=0,main=NULL, ...){
   }
   plot(x, type='uniform')
   text(x,split=FALSE,...)
-  labelBG(x)
+  labelBG(x, npred, rv)
   labelYN(x)
   title(main=main)
 }
