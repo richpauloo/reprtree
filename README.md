@@ -1,3 +1,9 @@
+# README
+
+This repo was cloned from [araastat/reprtree](https://github.com/araastat/reprtree), in order to develop functionality in adding color to variable names in tree plots extracted from `randomForest` objects.  
+
+***  
+
 __reprtree__ is a package to implement the concept of 
 representative trees from ensembles of tree-based machines
 introduced by Banerjee, _et al_, 2012. 
